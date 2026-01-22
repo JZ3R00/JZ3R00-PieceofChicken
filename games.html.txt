@@ -1,0 +1,1008 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>J.Z3R0 GAMING - Games Library</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Arial', sans-serif;
+            background: linear-gradient(135deg, #000000 0%, #0a0a0a 50%, #001100 100%);
+            color: #fff;
+            overflow-x: hidden;
+            line-height: 1.6;
+        }
+
+        /* Animated Background */
+        .bg-animation {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            opacity: 0.1;
+        }
+
+        .bg-animation::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><defs><pattern id="grid" width="10" height="10" patternUnits="userSpaceOnUse"><path d="M 10 0 L 0 0 0 10" fill="none" stroke="%23ffffff" stroke-width="0.5"/></pattern></defs><rect width="100" height="100" fill="url(%23grid)"/></svg>');
+            animation: gridMove 20s linear infinite;
+        }
+
+        @keyframes gridMove {
+            0% { transform: translateX(0) translateY(0); }
+            100% { transform: translateX(-10px) translateY(-10px); }
+        }
+
+        /* Header */
+        header {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            background: rgba(10, 10, 10, 0.9);
+            backdrop-filter: blur(10px);
+            z-index: 1000;
+            padding: 1rem 0;
+            transition: all 0.3s ease;
+        }
+
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+
+        .logo {
+            font-size: 2rem;
+            font-weight: bold;
+            background: linear-gradient(45deg, #00ff00, #00cc00, #00aa00);
+            background-clip: text;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-decoration: none;
+        }
+
+        .nav-links {
+            display: flex;
+            list-style: none;
+            gap: 2rem;
+        }
+
+        .nav-links a {
+            color: #fff;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            position: relative;
+            padding: 0.5rem 1rem;
+        }
+
+        .nav-links a::before {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            width: 0;
+            height: 2px;
+            background: linear-gradient(45deg, #00ff00, #00cc00);
+            transition: all 0.3s ease;
+            transform: translateX(-50%);
+        }
+
+        .nav-links a:hover::before {
+            width: 100%;
+        }
+
+        .nav-links a:hover {
+            color: #00ff00;
+            transform: translateY(-2px);
+        }
+
+        /* Main Content */
+        main {
+            padding-top: 100px;
+            min-height: 100vh;
+        }
+
+        .games-header {
+            text-align: center;
+            padding: 4rem 2rem 2rem;
+            background: radial-gradient(ellipse at center, rgba(0, 255, 0, 0.1) 0%, transparent 50%);
+        }
+
+        .games-header h1 {
+            font-size: 4rem;
+            margin-bottom: 1rem;
+            background: linear-gradient(45deg, #00ff00, #00cc00, #00aa00, #008800);
+            background-size: 400% 400%;
+            background-clip: text;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            animation: gradientShift 4s ease-in-out infinite;
+        }
+
+        @keyframes gradientShift {
+            0%, 100% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+        }
+
+        .games-header p {
+            font-size: 1.3rem;
+            opacity: 0.9;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        /* Games Grid */
+        .games-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        .games-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+
+        .game-card {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 20px;
+            padding: 0;
+            backdrop-filter: blur(15px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            transition: all 0.4s ease;
+            position: relative;
+            overflow: hidden;
+            cursor: pointer;
+        }
+
+        .game-card.clickable {
+            cursor: pointer;
+        }
+
+        .game-card.coming-soon {
+            cursor: not-allowed;
+            opacity: 0.7;
+        }
+
+        .game-card::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: linear-gradient(45deg, transparent, rgba(0, 255, 0, 0.1), transparent);
+            transform: rotate(45deg);
+            transition: all 0.5s ease;
+            opacity: 0;
+        }
+
+        .game-card:hover::before {
+            opacity: 1;
+            transform: rotate(45deg) translate(50%, 50%);
+        }
+
+        .game-card:hover {
+            transform: translateY(-15px);
+            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.4);
+            border-color: rgba(0, 255, 0, 0.4);
+        }
+
+        .game-image {
+            height: 200px;
+            background: linear-gradient(135deg, #001100, #002200, #000000);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 4rem;
+            color: #00ff00;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .game-image::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(0, 255, 0, 0.2), transparent);
+            transition: left 0.6s ease;
+        }
+
+        .game-card:hover .game-image::after {
+            left: 100%;
+        }
+
+        .game-content {
+            padding: 2rem;
+        }
+
+        .game-content h3 {
+            color: #00ff00;
+            margin-bottom: 1rem;
+            font-size: 1.5rem;
+        }
+
+        .game-content p {
+            margin-bottom: 1.5rem;
+            opacity: 0.9;
+        }
+
+        .game-status {
+            display: inline-block;
+            padding: 0.5rem 1rem;
+            background: linear-gradient(45deg, #00ff00, #00cc00);
+            color: black;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            font-weight: bold;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .game-status.coming-soon {
+            background: linear-gradient(45deg, #666666, #888888);
+            color: white;
+        }
+
+        .game-status.beta {
+            background: linear-gradient(45deg, #ffaa00, #ff8800);
+            color: black;
+        }
+
+        /* Categories */
+        .category-filter {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+            margin-bottom: 3rem;
+            flex-wrap: wrap;
+        }
+
+        .filter-btn {
+            padding: 0.8rem 1.5rem;
+            background: rgba(255, 255, 255, 0.1);
+            color: #fff;
+            border: none;
+            border-radius: 25px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-weight: bold;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .filter-btn:hover,
+        .filter-btn.active {
+            background: linear-gradient(45deg, #00ff00, #00cc00);
+            color: black;
+            transform: translateY(-2px);
+        }
+
+        /* Footer */
+        footer {
+            background: rgba(10, 10, 10, 0.9);
+            text-align: center;
+            padding: 2rem;
+            margin-top: 4rem;
+        }
+
+        /* Mobile Responsive */
+        @media (max-width: 768px) {
+            .nav-links {
+                display: none;
+            }
+            
+            .games-header h1 {
+                font-size: 2.5rem;
+            }
+            
+            .games-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .category-filter {
+                flex-direction: column;
+                align-items: center;
+            }
+        }
+
+        /* Scrollbar Styling */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: #000000;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: linear-gradient(45deg, #00ff00, #00cc00);
+            border-radius: 4px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: linear-gradient(45deg, #00cc00, #00ff00);
+        }
+    </style>
+</head>
+<body>
+    <div class="bg-animation"></div>
+    
+    <header>
+        <nav>
+            <a href="index.html" class="logo">J.Z3R0 GAMING</a>
+            <ul class="nav-links">
+                <li><a href="index.html">HOME</a></li>
+                <li><a href="games.html">GAMES</a></li>
+                <li><a href="index.html#community">COMMUNITY</a></li>
+                <li><a href="index.html#contact">CONTACT</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main>
+        <section class="games-header">
+            <h1>GAME LIBRARY</h1>
+            <p>Discover our collection of cutting-edge games designed to push the boundaries of interactive entertainment</p>
+        </section>
+
+        <div class="games-container">
+            <div class="category-filter">
+                <button class="filter-btn active" data-category="all">ALL GAMES</button>
+                <button class="filter-btn" data-category="action">ACTION</button>
+                <button class="filter-btn" data-category="racing">RACING</button>
+                <button class="filter-btn" data-category="strategy">STRATEGY</button>
+                <button class="filter-btn" data-category="rpg">RPG</button>
+            </div>
+
+            <div class="games-grid">
+                <div class="game-card" data-category="action">
+                    <div class="game-image"> <img src="HollowBan.jpg"></div>
+                    <div class="game-content">
+                        <h3>HOLLOW KNIGHT</h3>
+                        <p>Hollow Knight is a challenging 2D action-adventure. You'll explore twisting caverns, battle tainted creatures and escape intricate traps.</p>
+                        <span class="game-status">OUT</span>
+                    </div>
+                </div>
+
+                <div class="game-card" data-category="racing">
+                    <div class="game-image">  <img src="UltraBan.jpg"></div>
+                    <div class="game-content">
+                        <h3>ULTRAKILL</h3>
+                        <p>ULTRAKILL is a fast-paced ultraviolent retro FPS combining the skill-based style scoring from character action games with unadulterated carnage inspired by the best shooters of the '90s. Rip apart your foes with varied destructive weapons and shower in their blood to regain your health.</p>
+                        <span class="game-status">UPDATED</span>
+                    </div>
+                </div>
+
+                <div class="game-card" data-category="horror">
+                    <div class="game-image"> <img src="FearBan.jpg"></div>
+                    <div class="game-content">
+                        <h3>Fears to Fathom Home Alone</h3>
+                        <p>Fears to Fathom is an episodic psychological horror game where each episode unveils a short story narrated by the ones who survived.</p>
+                        <span class="game-status">OUT</span>
+                    </div>
+                </div>
+
+                <div class="game-card" data-category="horror">
+                    <div class="game-image"> <img src="Fnaf1Ban.jpg"></div>
+                    <div class="game-content">
+                        <h3>Fnaf 1</h3>
+                        <p>Scary Bear</p>
+                        <span class="game-status">NEW</span>
+                    </div>
+                </div>
+
+                <div class="game-card" data-category="action">
+                    <div class="game-image"> <img src="Fnaf2Ban.jpg"></div>
+                    <div class="game-content">
+                        <h3>Fnaf 2</h3>
+                        <p>Scary Bear pt.2</p>
+                        <span class="game-status beta">OUT</span>
+                    </div>
+                </div>
+
+                <div class="game-card" data-category="action">
+                    <div class="game-image"> <img src="Fnaf3Ban.jpg"></div>
+                    <div class="game-content">
+                        <h3>Fnaf 3</h3>
+                        <p>Scary Bear pt.3</p>
+                        <span class="game-status beta">OUT</span>
+                    </div>
+                </div>
+
+                <div class="game-card" data-category="action">
+                    <div class="game-image"> <img src="Fnaf4Ban.jpg"></div>
+                    <div class="game-content">
+                        <h3>Fnaf 4</h3>
+                        <p>Scary Bear pt.4</p>
+                        <span class="game-status beta">OUT</span>
+                    </div>
+                </div>
+
+                <div class="game-card" data-category="action">
+                    <div class="game-image"> <img src="Fnaf5Ban.jpg"></div>
+                    <div class="game-content">
+                        <h3>Fnaf Sister Location</h3>
+                        <p>Scary Bear pt.5</p>
+                        <span class="game-status beta">OUT</span>
+                    </div>
+                </div>
+
+                <div class="game-card" data-category="action">
+                    <div class="game-image"> <img src="Fnaf6Ban.jpg"></div>
+                    <div class="game-content">
+                        <h3>Fnaf Pizza Sim</h3>
+                        <p>Scary Bear pt.6</p>
+                        <span class="game-status beta">OUT</span>
+                    </div>
+                </div>
+
+                <div class="game-card" data-category="action">
+                    <div class="game-image"> <img src="Fnaf7Ban.jpg"></div>
+                    <div class="game-content">
+                        <h3>Fnaf Ultimate Custom Night</h3>
+                        <p>Scary Bear pt.7</p>
+                        <span class="game-status beta">OUT</span>
+                    </div>
+                </div>
+                
+                <div class="game-card" data-category="racing">
+                    <div class="game-image"> <img src="FnafwBan.jpg"></div>
+                    <div class="game-content">
+                        <h3>Fnaf World</h3>
+                        <p>Freddy=good</p>
+                        <span class="game-status coming-soon">NEW</span>
+                    </div>
+                </div>
+                                
+                <div class="game-card" data-category="racing">
+                    <div class="game-image"> ☕️👉 </div>
+                    <div class="game-content">
+                        <h3>Cuphead</h3>
+                        <p>Cup that shoots from its hands</p>
+                        <span class="game-status coming-soon">NEW</span>
+                    </div>
+                </div>
+                
+                <div class="game-card" data-category="action">
+                    <div class="game-image"> <img src="FnacBan.jpg"></div>
+                    <div class="game-content">
+                        <h3>Fnac</h3>
+                        <p>Scary Cat</p>
+                        <span class="game-status beta">OUT</span>
+                    </div>
+                </div>
+
+                <div class="game-card" data-category="action">
+                    <div class="game-image"> <img src="FnacBan.jpg"></div>
+                    <div class="game-content">
+                        <h3>Fnac 2</h3>
+                        <p>Scary Cat pt.2</p>
+                        <span class="game-status beta">OUT</span>
+                    </div>
+                </div>
+
+                <div class="game-card" data-category="rpg">
+                    <div class="game-image"> <img src="PizzaBan.jpg"></div>
+                    <div class="game-content">
+                        <h3>Pizza Tower</h3>
+                        <p>Pizza Tower is a 2023 platform game created by the indie developer Tour De Pizza. One of my personal favorites</p>
+                        <span class="game-status beta">NEW</span>
+                    </div>
+                </div>
+                
+                <div class="game-card" data-category="rpg">
+                    <div class="game-image">🟦</div>
+                    <div class="game-content">
+                        <h3>Geometry Dash</h3>
+                        <p>Geometry Dash is a side-scrolling platformer video game created by Swedish game developer Robert Topala, known professionally as RobTop. It was released for iOS and Android on 13 August 2013, Windows Phone on 12 June 2014, and on Steam on 22 December 2014.</p>
+                        <span class="game-status">OUT</span>
+                    </div>
+                </div>
+
+                <div class="game-card" data-category="action">
+                    <div class="game-image">🚗</div>
+                    <div class="game-content">
+                        <h3>Madalin Stunt Cars 3</h3>
+                        <p>Madalin Stunt Cars 3 is a 3D stunt driving game has some of the world's most powerful cars. This driving simulator features realistic 3D physics.</p>
+                        <span class="game-status beta">OUT</span>
+                    </div>
+                </div>
+
+                <div class="game-card" data-category="strategy">
+                    <div class="game-image">👨‍🦯</div>
+                    <div class="game-content">
+                        <h3>People Playground</h3>
+                        <p>Sand box game that allows you to yes. USED A LOT</p>
+                        <span class="game-status coming-soon">OUT</span>
+                    </div>
+                </div>
+                
+                <div class="game-card" data-category="strategy">
+                    <div class="game-image">🧑‍🏫</div>
+                    <div class="game-content">
+                        <h3>Baldis Basics</h3>
+                        <p>EVIL MATH teacher!!</p>
+                        <span class="game-status coming-soon">NEW</span>
+                    </div>
+                </div>
+                
+                <div class="game-card" data-category="racing">
+                    <div class="game-image">🤫</div>
+                    <div class="game-content">
+                        <h3>Metal Gear Solid</h3>
+                        <p> 1998 action-adventure stealth game developed and published by Konami for the PlayStation. It was directed, produced, and written by Hideo Kojima, and follows the MSX2 games Metal Gear and Metal Gear 2: Solid Snake.</p>
+                        <span class="game-status coming-soon">OUT</span>
+                    </div>
+                </div>
+
+                <div class="game-card" data-category="racing">
+                    <div class="game-image">☢️</div>
+                    <div class="game-content">
+                        <h3>Fallout</h3>
+                        <p>A 1997 role-playing video game developed and published by Interplay Productions, set in a mid-22nd century post-apocalyptic and retro-futuristic world, decades after a global nuclear war led by the United States and China. Fallout's protagonist, the Vault Dweller, inhabits an underground nuclear shelter</p>
+                        <span class="game-status coming-soon">OUT</span>
+                    </div>
+                </div>
+                
+                <div class="game-card" data-category="racing">
+                    <div class="game-image">🧥</div>
+                    <div class="game-content">
+                        <h3>Hotline Miami</h3>
+                        <p>(ATTENTION PRESS CONTINUE AND GO TO THE 2nd CHAPTER BECAUSE FINISHERS DONT WORK FOR SOME REASON) top-down shooter game developed by Dennaton Games and published by Devolver Digital. Set in Miami in 1989, the game follows an unnamed silent protagonist—dubbed Jacket by fans—as he commits massacres against the local Russian mafia.</p>
+                        <span class="game-status coming-soon">OUT</span>
+                    </div>
+                </div>
+
+                                
+                <div class="game-card" data-category="racing">
+                    <div class="game-image">🥞</div>
+                    <div class="game-content">
+                        <h3>Pou</h3>
+                        <p>Pou is a 2012 virtual pet mobile game for BlackBerry 10, iOS and Android developed by Lebanese designer Paul Salameh and published under the name Zakeh Limited to the Google Play Store and the Apple App Store. The game plays similarly to Tamagotchi, a fad game that requires caring for a simulated creature.</p>
+                        <span class="game-status coming-soon">DOES NOT WORK</span>
+                    </div>
+                </div>
+                                                
+                <div class="game-card" data-category="racing">
+                    <div class="game-image">🔨</div>
+                    <div class="game-content">
+                        <h3>Getting Over It with Bennett Foddy</h3>
+                        <p>D-d-d-d-diddy?</p>
+                        <span class="game-status coming-soon">OUT</span>
+                    </div>
+                </div>
+                                                                
+                <div class="game-card" data-category="racing">
+                    <div class="game-image">🥛</div>
+                    <div class="game-content">
+                        <h3>Karlson</h3>
+                        <p>What do you get if you combine an FPS, Parkour, Slowmo & ... Milk? KARLSON. The milk-infused man will stop at nothing to locate and drink his favorite beverage.</p>
+                        <span class="game-status coming-soon">OUT</span>
+                    </div>
+                </div>
+                                                                                
+                <div class="game-card" data-category="racing">
+                    <div class="game-image">🧟</div>
+                    <div class="game-content">
+                        <h3>Plants vs Zombies</h3>
+                        <p>Zombies are invading your home, and the only defense is your arsenal of plants! Armed with an alien nursery-worth of zombie-zapping plants like peashooters and cherry bombs, you'll need to think fast and plant faster to stop dozens of types of zombies dead in their tracks.</p>
+                        <span class="game-status coming-soon">OUT</span>
+                    </div>
+                </div>
+                                                                                                                               
+                <div class="game-card" data-category="racing">
+                    <div class="game-image">👶</div>
+                    <div class="game-content">
+                        <h3>Bitlife</h3>
+                        <p>BitLife is a text-based life simulator where you guide a character from birth to death, making choices through multiple-choice prompts that shape their entire life</p>
+                        <span class="game-status coming-soon">NEW</span>
+                    </div>
+                </div>
+                                                                                                                                              
+                <div class="game-card" data-category="racing">
+                    <div class="game-image">🥕</div>
+                    <div class="game-content">
+                        <h3>Dadish</h3>
+                        <p>Si</p>
+                        <span class="game-status coming-soon">NEW</span>
+                    </div>
+                </div>
+                                                                                                                                                                          
+                <div class="game-card" data-category="racing">
+                    <div class="game-image">🥕</div>
+                    <div class="game-content">
+                        <h3>Dadish 2</h3>
+                        <p>Si part 2</p>
+                        <span class="game-status coming-soon">NEW</span>
+                    </div>
+                </div>
+                                                                                                                                                                                                                                               
+                <div class="game-card" data-category="racing">
+                    <div class="game-image">🥕</div>
+                    <div class="game-content">
+                        <h3>Dadish 3</h3>
+                        <p>Si part 3</p>
+                        <span class="game-status coming-soon">NEW</span>
+                    </div>
+                </div>
+                                                                                                                                                                                                                                      
+                <div class="game-card" data-category="racing">
+                    <div class="game-image">🥕</div>
+                    <div class="game-content">
+                        <h3>Dadish 3d</h3>
+                        <p>Si But 3D</p>
+                        <span class="game-status coming-soon">NEW</span>
+                    </div>
+                </div>
+                                                                                                                                        
+                <div class="game-card" data-category="racing">
+                    <div class="game-image">👹</div>
+                    <div class="game-content">
+                        <h3>DOOM</h3>
+                        <p>Kill demons and stuff, on mars to save earth</p>
+                        <span class="game-status coming-soon">NEW</span>
+                    </div>
+                </div>
+                                                                                                                                                                                                                                                              
+                <div class="game-card" data-category="racing">
+                    <div class="game-image">🍦</div>
+                    <div class="game-content">
+                        <h3>Papa's Freezearia</h3>
+                        <p>take orders, mix frozen treats, and serve quickly.</p>
+                        <span class="game-status coming-soon">NEW</span>
+                    </div>
+                </div>
+                                                                                                                                                                                                                                                                                                   
+                <div class="game-card" data-category="racing">
+                    <div class="game-image">🌭</div>
+                    <div class="game-content">
+                        <h3>Papa's Hot Doggeria</h3>
+                        <p>take orders and serve quickly.</p>
+                        <span class="game-status coming-soon">NEW</span>
+                    </div>
+                </div>
+                                                                                                                                                                                                                                                                                                                                   
+                <div class="game-card" data-category="racing">
+                    <div class="game-image">🧀</div>
+                    <div class="game-content">
+                        <h3>Papa's Cheeseria</h3>
+                        <p>take orders and serve quickly.</p>
+                        <span class="game-status coming-soon">NEW</span>
+                    </div>
+                </div>
+                                                                                                                                                                                                                                                                                                                                                                              
+                <div class="game-card" data-category="racing">
+                    <div class="game-image">🤖</div>
+                    <div class="game-content">
+                        <h3>Station 141</h3>
+                        <p>Fight other robots, dummy</p>
+                        <span class="game-status coming-soon">NEW</span>
+                    </div>
+                </div>
+                                                                                                                                                                                                                                                                                                                                                                                                                   
+                <div class="game-card" data-category="racing">
+                    <div class="game-image">🏍️</div>
+                    <div class="game-content">
+                        <h3>Moto X3M</h3>
+                        <p>Race your motorbike through levels with massive, moving obstacles that you have to jump over or avoid.</p>
+                        <span class="game-status coming-soon">NEW</span>
+                    </div>
+                </div>
+                                                                                                                                                                                                                                                                                                                                                                                                                                   
+                <div class="game-card" data-category="racing">
+                    <div class="game-image">🦝</div>
+                    <div class="game-content">
+                        <h3>Tanuki Sunset</h3>
+                        <p>Tanuki Sunset is a downhill skateboarding game with a raccoon protagonist called Tanuki.</p>
+                        <span class="game-status coming-soon">NEW</span>
+                    </div>
+                </div>
+                                                                                                                                                                                                                                                                                                                                                                                                                                                   
+                <div class="game-card" data-category="racing">
+                    <div class="game-image">🐱</div>
+                    <div class="game-content">
+                        <h3>Tattletail</h3>
+                        <p>Tattletail is a story-driven first-person horror game set in 1998 where you must stop a toy from getting you in trouble</p>
+                        <span class="game-status coming-soon">NEW</span>
+                    </div>
+                </div>
+                
+                <div class="game-card" data-category="racing">
+                    <div class="game-image">⚔️</div>
+                    <div class="game-content">
+                        <h3>GladiHoppers</h3>
+                        <p>Be a cool gladiator</p>
+                        <span class="game-status coming-soon">NEW</span>
+                    </div>
+                </div>
+                                                                                                                                                                                                                                                           
+                <div class="game-card" data-category="racing">
+                    <div class="game-image">⛏️</div>
+                    <div class="game-content">
+                        <h3>Doge Miner</h3>
+                        <p>Mine Doge coin</p>
+                        <span class="game-status coming-soon">NEW</span>
+                    </div>
+                </div>
+                                                                                                                                                                                                     
+                <div class="game-card" data-category="racing">
+                    <div class="game-image">🏢</div>
+                    <div class="game-content">
+                        <h3>City Smash</h3>
+                        <p>Break a city and yeah</p>
+                        <span class="game-status coming-soon">NEW</span>
+                    </div>
+                </div>
+                                                                                                                                                       
+                <div class="game-card" data-category="racing">
+                    <div class="game-image">🍪</div>
+                    <div class="game-content">
+                        <h3>Cookie Clicker</h3>
+                        <p>Click the cookie</p>
+                        <span class="game-status coming-soon">NEW</span>
+                    </div>
+                </div>
+                                                                                                                                                                         
+                <div class="game-card" data-category="racing">
+                    <div class="game-image">🐀</div>
+                    <div class="game-content">
+                        <h3>Cheese Chompers 3D</h3>
+                        <p>Rat game?</p>
+                        <span class="game-status coming-soon">NEW</span>
+                    </div>
+                </div>
+                                                                                 
+                <div class="game-card" data-category="racing">
+                    <div class="game-image">👵</div>
+                    <div class="game-content">
+                        <h3>Granny</h3>
+                        <p>EVIL Grandma</p>
+                        <span class="game-status coming-soon">OUT</span>
+                    </div>
+                </div>
+                                                                            
+                <div class="game-card" data-category="racing">
+                    <div class="game-image">👵👴</div>
+                    <div class="game-content">
+                        <h3>Granny 2</h3>
+                        <p>EVIL Grandma WITH EVIL Grandpa</p>
+                        <span class="game-status coming-soon">OUT</span>
+                    </div>
+                </div>
+                                                                                                                        
+                <div class="game-card" data-category="racing">
+                    <div class="game-image">🎤</div>
+                    <div class="game-content">
+                        <h3>Parappa the Rapper</h3>
+                        <p>PaRappa the Rapper is a rhythm video game developed by NanaOn-Sha and published by Sony Computer Entertainment for the PlayStation. It was originally released in Japan in 1996 and worldwide in 1997</p>
+                        <span class="game-status coming-soon">BLOCKED</span>
+                    </div>
+                </div>
+                                                                                                                      
+                <div class="game-card" data-category="racing">
+                    <div class="game-image">🦔</div>
+                    <div class="game-content">
+                        <h3>Sonic CD</h3>
+                        <p>Sonic the Hedgehog CD is a 1993 platform game developed and published by Sega for the Sega CD.</p>
+                        <span class="game-status coming-soon">NEW</span>
+                    </div>
+                </div>
+                                                                                                                                           
+                <div class="game-card" data-category="racing">
+                    <div class="game-image">🧫</div>
+                    <div class="game-content">
+                        <h3>Slime Rancher</h3>
+                        <p>Slime Rancher is the tale of Beatrix LeBeau, a plucky, young rancher who sets out for a life a thousand light years away from Earth on the ‘Far, Far Range’ where she tries her hand at making a living wrangling slimes.</p>
+                        <span class="game-status coming-soon">OUT</span>
+                    </div>
+                </div>
+                                                                                                                                                                
+                <div class="game-card" data-category="racing">
+                    <div class="game-image">🏃</div>
+                    <div class="game-content">
+                        <h3>Run 2</h3>
+                        <p>Idk what to put here</p>
+                        <span class="game-status coming-soon">OUT</span>
+                    </div>
+                </div>
+                                                                                                                                                                                     
+                <div class="game-card" data-category="racing">
+                    <div class="game-image">🏃</div>
+                    <div class="game-content">
+                        <h3>Run 3</h3>
+                        <p>Idk what to put here again</p>
+                        <span class="game-status coming-soon">OUT</span>
+                    </div>
+                </div>
+                                                                                                                                                                                                          
+                <div class="game-card" data-category="racing">
+                    <div class="game-image">👨‍🔬</div>
+                    <div class="game-content">
+                        <h3>Half Life</h3>
+                        <p>Named Game of the Year by over 50 publications, Valve's debut title blends action and adventure with award-winning technology to create a frighteningly realistic world where players must think to survive.</p>
+                        <span class="game-status coming-soon">OUT</span>
+                    </div>
+                </div>
+                                                                                                                                                                                                                               
+                <div class="game-card" data-category="racing">
+                    <div class="game-image">💊</div>
+                    <div class="game-content">
+                        <h3>Side Effects</h3>
+                        <p>Take your pills. Utilize items in your favor. Watch your resistance. Survive.</p>
+                        <span class="game-status coming-soon">OUT</span>
+                    </div>
+                </div>
+                                                                                                                                                                                                                                                    
+                <div class="game-card" data-category="racing">
+                    <div class="game-image">🏐</div>
+                    <div class="game-content">
+                        <h3>Slope</h3>
+                        <p>Roll down a hill</p>
+                        <span class="game-status coming-soon">OUT</span>
+                    </div>
+                </div>
+                                                                                                                                                                                                                                                                    
+                <div class="game-card" data-category="racing">
+                    <div class="game-image">👨‍🔧</div>
+                    <div class="game-content">
+                        <h3>Super Mario 64</h3>
+                        <p>a 1996 platform video game for the Nintendo 64 that was revolutionary for its 3D gameplay</p>
+                        <span class="game-status coming-soon">OUT</span>
+                    </div>
+                </div>
+                                                                                                                                                                                                                                                                                    
+                <div class="game-card" data-category="racing">
+                    <div class="game-image">W</div>
+                    <div class="game-content">
+                        <h3>Wordle</h3>
+                        <p>Solve word puzzles</p>
+                        <span class="game-status coming-soon">OUT</span>
+                    </div>
+                </div>
+                
+                <div class="game-card" data-category="racing">
+                    <div class="game-image">🤪</div>
+                    <div class="game-content">
+                        <h3>Steal a Brainrot</h3>
+                        <p>Russiun haker get you</p>
+                        <span class="game-status coming-soon">OUT</span>
+                    </div>
+                </div>
+                
+                <div class="game-card" data-category="racing">
+                    <div class="game-image">🤪</div>
+                    <div class="game-content">
+                        <h3>Steal a Brainrot Online</h3>
+                        <p>Russiun haker get you online though</p>
+                        <span class="game-status coming-soon">UPDATED</span>
+                    </div>
+                </div>
+                
+                <div class="game-card" data-category="racing">
+                    <div class="game-image">🤫</div>
+                    <div class="game-content">
+                        <h3>Sandstone</h3>
+                        <p>🤫🤫🤫🤫🤫</p>
+                        <span class="game-status coming-soon">UPDATED</span>
+                    </div>
+                </div>
+
+                <div class="game-card" data-category="rpg">
+                    <div class="game-image">🎈</div>
+                    <div class="game-content">
+                        <h3>PLACE HOLDER</h3>
+                        <p>PLACEHOLDER</p>
+                        <span class="game-status beta">PLACE HOLDER</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <footer>
+        <p>&copy; 2025 J.Z3R0 GAMING. All rights reserved.</p>
+        <p>Level up your game with us!</p>
+    </footer>
+
+    <script>
+        // Category filtering
+        const filterButtons = document.querySelectorAll('.filter-btn');
+        const gameCards = document.querySelectorAll('.game-card');
+
+        filterButtons.forEach(btn => {
+            btn.addEventListener('click', () => {
+                // Remove active class from all buttons
+                filterButtons.forEach(b => b.classList.remove('active'));
+                // Add active class to clicked button
+                btn.classList.add('active');
+                
+                const category = btn.dataset.category;
+                
+                gameCards.forEach(card => {
+                    if (category === 'all' || card.dataset.category === category) {
+                        card.style.display = 'block';
+                        card.style.animation = 'fadeInUp 0.5s ease forwards';
+                    } else {
+                        card.style.display = 'none';
+                    }
+                });
+            });
+        });
+
+        // Header background opacity on scroll
+        window.addEventListener('scroll', () => {
+            const header = document.querySelector('header');
+            const scrolled = window.pageYOffset;
+            const opacity = Math.min(scrolled / 100, 0.95);
+            header.style.background = `rgba(10, 10, 10, ${opacity})`;
+        });
+
+        // Add click animation and navigation to game cards
+        gameCards.forEach(card => {
+            card.addEventListener('click', () => {
+                const gameTitle = card.querySelector('h3').textContent;
+                const gameStatus = card.querySelector('.game-status').textContent;
+                
+                // Only navigate to live and beta games
+                if (gameStatus === 'LIVE NOW' || gameStatus === 'BETA'|| gameStatus === 'NEW'|| gameStatus === 'OPEN'|| gameStatus === 'UPDATED'|| gameStatus === 'OUT') {
+                    card.style.transform = 'scale(0.95)';
+                    setTimeout(() => {
+                        // Convert game title to filename
+                        const filename = gameTitle.toLowerCase().replace(/\s+/g, '-') + '.html';
+                        window.location.href = filename;
+                    }, 100);
+                } else {
+                    // Coming soon games just animate
+                    card.style.transform = 'scale(0.95)';
+                    setTimeout(() => {
+                        card.style.transform = 'translateY(-15px)';
+                    }, 100);
+                }
+            });
+        });
+
+        // Add fade in animation
+        const style = document.createElement('style');
+        style.textContent = `
+            @keyframes fadeInUp {
+                from {
+                    opacity: 0;
+                    transform: translateY(30px);
+                }
+                to {
+                    opacity: 1;
+                    transform: translateY(0);
+                }
+            }
+        `;
+        document.head.appendChild(style);
+
+        // Initialize with fade in animation
+        gameCards.forEach((card, index) => {
+            card.style.animation = `fadeInUp 0.5s ease ${index * 0.1}s forwards`;
+        });
+    </script>
+</body>
+</html>
